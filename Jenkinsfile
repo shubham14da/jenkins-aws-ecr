@@ -1,13 +1,14 @@
+properties([
+  parameters([
+    choice(choices: ['java', 'python', 'go', 'c', 'javascript'], description: 'Select the language:', name: 'language')
+  ])
+])
+
 pipeline {
-    agent any
-
-    parameters {
-        string(name: 'imageName', defaultValue: 'python', description: 'Enter the image name')
-    }
-
-    environment {
-        registry = "450003755604.dkr.ecr.us-east-2.amazonaws.com/compilationengine/${imageName}"
-    }
+  agent any
+  environment {
+    registry = "450003755604.dkr.ecr.us-east-2.amazonaws.com/compilationengine/${language}"
+  }
 
     stages {
         stage('Checkout') {
