@@ -7,7 +7,7 @@ pipeline {
     stages {
           stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/shubham14da/jenkins-ECR.git'
+                git branch: 'main', url: 'https://github.com/shubham14da/jenkins-aws-ecr.git'
             }
         }
            stage('Building image') {
@@ -21,7 +21,7 @@ pipeline {
             stage('Pushing to ECR') {
              steps{  
                   script {
-               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-ecr-ec2', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+               withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'jenkins-aws-ecr', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
     sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 450003755604.dkr.ecr.us-east-2.amazonaws.com'
      sh 'docker push 450003755604.dkr.ecr.us-east-2.amazonaws.com/compilationengine/python:latest'
 }
